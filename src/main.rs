@@ -5,28 +5,13 @@ extern crate num;
 use image::ColorType;
 use image::png::PNGEncoder;
 use num::Complex;
-use std::str::FromStr;
 use std::fs::File;
 use std::io::Result;
-use std::io::Write;
 
 fn main() {
-    let args: Vec<String> = std::env::args().collect();
-
-    if args.len() != 5 {
-        writeln!(std::io::stderr(),
-                "Usage: mandelbrot FILE PIXELS UPPERLEFT LOWERRIGHT")
-            .unwrap();
-        writeln!(std::io::stderr(),
-                "Example: {} mandel.png 1000x750 -1.20,0.35 -1,0.20",
-                args[0])
-            .unwrap();
-        std::process::exit(1);
-    }
-
-    let bounds = parse_pair(&args[2], 'x').expect("error parsing image dimensions");
-    let upper_left = parse_complex(&args[3]).expect("error parsing upper left corner point");
-    let lower_right = parse_complex(&args[4]).expect("error parsing lower right corner point");
+    let bounds = (1000, 750);
+    let upper_left = Complex { re: -1.20, im: 0.35 };
+    let lower_right = Complex { re: -1.0, im: 0.20 };
 
     let mut pixels = vec![0; bounds.0 * bounds.1];
     let threads = 8;
@@ -45,19 +30,7 @@ fn main() {
         render(band, band_bounds, band_upper_left, band_lower_right);
     }
 
-    write_image(&args[1], &pixels, bounds).expect("error writing PNG file");
-}
-
-fn parse_pair<T: FromStr>(s: &str, separator: char) -> Option<(T, T)> {
-    match s.find(separator) {
-        None => None,
-        Some(index) => {
-            match (T::from_str(&s[..index]), T::from_str(&s[index + 1..])) {
-                (Ok(l), Ok(r)) => Some((l, r)),
-                _ => None
-            }
-        }
-    }
+    write_image("mandelbrot-single.png", &pixels, bounds).expect("error writing PNG file");
 }
 
 fn write_image(filename: &str, pixels: &[u8], bounds: (usize, usize)) -> Result<()> {
@@ -80,13 +53,6 @@ fn render(pixels: &mut [u8], bounds: (usize, usize), upper_left: Complex<f64>, l
                     Some(count) => 255 - count as u8
                 }
         }
-    }
-}
-
-fn parse_complex(s: &str) -> Option<Complex<f64>> {
-    match parse_pair(s, ',') {
-        Some((re, im)) => Some(Complex { re, im }),
-        None => None
     }
 }
 
