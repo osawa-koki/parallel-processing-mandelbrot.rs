@@ -1,6 +1,10 @@
 # parallel-processing-mandelbrot.rs
 
-🧌🧌🧌 Rustで並列処理でマンデルブロ集合を描画してみる！  
+🧌🧌🧌 Rustで並列処理(crossbeam)を使用してマンデルブロ集合を描画してみる！  
+
+![成果物](./docs/images/fruit.gif)  
+
+![マンデルブロ集合](./docs/images/mandelbrot.png)  
 
 ## 実行方法
 
