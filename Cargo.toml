@@ -5,4 +5,18 @@ edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[lib]
+name = "mylib"
+path = "./src/lib.rs"
+
 [dependencies]
+num="0.1.27"
+crossbeam = "0.2.8"
+image="0.13.0"
+
+[dev-dependencies]
+criterion = "0.3"
+
+[[bench]]
+name = "benchmark"
+harness = false
