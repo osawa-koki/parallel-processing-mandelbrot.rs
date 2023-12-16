@@ -4,7 +4,7 @@ use num::Complex;
 
 use criterion::{criterion_group, criterion_main, Criterion};
 
-use mylib::main_single;
+use mylib::{main_single, main_multi};
 
 fn criterion_benchmark(c: &mut Criterion) {
     let bounds = (1000, 750);
@@ -12,6 +12,7 @@ fn criterion_benchmark(c: &mut Criterion) {
     let lower_right = Complex { re: -1.0, im: 0.20 };
 
     c.bench_function("single-thread", |b| b.iter(|| main_single(bounds, upper_left, lower_right)));
+    c.bench_function("multi-thread", |b| b.iter(|| main_multi(bounds, upper_left, lower_right)));
 }
 
 criterion_group!(benches, criterion_benchmark);

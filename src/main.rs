@@ -2,7 +2,7 @@ extern crate num;
 
 use num::Complex;
 
-use mylib::main_single;
+use mylib::{main_single, main_multi};
 
 fn main() {
     let bounds = (1000, 750);
@@ -10,4 +10,5 @@ fn main() {
     let lower_right = Complex { re: -1.0, im: 0.20 };
 
     main_single(bounds, upper_left, lower_right);
+    main_multi(bounds, upper_left, lower_right);
 }
