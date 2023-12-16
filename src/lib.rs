@@ -51,7 +51,7 @@ pub fn main_multi(bounds: (usize, usize), upper_left: Complex<f64>, lower_right:
         }
     });
 
-    if let Err(_) = result {
+    if result.is_err() {
         panic!("error in crossbeam scope");
     }
 
