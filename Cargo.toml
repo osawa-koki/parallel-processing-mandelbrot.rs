@@ -12,7 +12,7 @@ path = "./src/lib.rs"
 [dependencies]
 num="0.1.27"
 crossbeam = "0.7.0"
-image="0.13.0"
+image="0.23.12"
 
 [dev-dependencies]
 criterion = "0.3"
