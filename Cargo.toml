@@ -10,7 +10,7 @@ name = "mylib"
 path = "./src/lib.rs"
 
 [dependencies]
-num="0.1.27"
+num="0.4"
 crossbeam = "0.8.0"
 image="0.23.12"
 
