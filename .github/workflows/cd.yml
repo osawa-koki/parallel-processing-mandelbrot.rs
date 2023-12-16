@@ -20,7 +20,7 @@ jobs:
   build:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Install gnuplot
         run: sudo apt update && sudo apt install -y gnuplot
       - name: Run benchmarks
