@@ -2,7 +2,7 @@ extern crate crossbeam;
 extern crate image;
 extern crate num;
 
-use image::png::PNGEncoder;
+use image::png::PngEncoder;
 use image::ColorType;
 use num::Complex;
 use std::fs::File;
@@ -52,6 +52,7 @@ pub fn main_multi(bounds: (usize, usize), upper_left: Complex<f64>, lower_right:
     });
 
     if result.is_err() {
+        println!("{:?}", result);
         panic!("error in crossbeam scope");
     }
 
@@ -60,8 +61,12 @@ pub fn main_multi(bounds: (usize, usize), upper_left: Complex<f64>, lower_right:
 
 fn write_image(filename: &str, pixels: &[u8], bounds: (usize, usize)) -> Result<()> {
     let output = File::create(filename)?;
-    let encoder = PNGEncoder::new(output);
-    encoder.encode(pixels, bounds.0 as u32, bounds.1 as u32, ColorType::Gray(8))?;
+    let encoder = PngEncoder::new(output);
+    let result = encoder.encode(pixels, bounds.0 as u32, bounds.1 as u32, ColorType::L8);
+    if result.is_err() {
+        println!("{:?}", result);
+        panic!("error encoding PNG file");
+    }
 
     Ok(())
 }
