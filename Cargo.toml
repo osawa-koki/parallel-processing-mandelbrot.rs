@@ -15,7 +15,7 @@ crossbeam = "0.8.0"
 image="0.23.12"
 
 [dev-dependencies]
-criterion = "0.3"
+criterion = "0.5"
 
 [[bench]]
 name = "benchmark"
