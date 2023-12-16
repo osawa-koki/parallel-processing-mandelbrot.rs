@@ -36,7 +36,7 @@ pub fn main_multi(bounds: (usize, usize), upper_left: Complex<f64>, lower_right:
 
     let bands: Vec<&mut [u8]> = pixels.chunks_mut(rows_per_band * bounds.0).collect();
 
-    crossbeam::scope(|spawner| {
+    let result = crossbeam::scope(|spawner| {
         for (i, band) in bands.into_iter().enumerate() {
             let top = rows_per_band * i;
             let height = band.len() / bounds.0;
@@ -45,11 +45,15 @@ pub fn main_multi(bounds: (usize, usize), upper_left: Complex<f64>, lower_right:
             let band_lower_right =
                 pixel_to_point(bounds, (bounds.0, top + height), upper_left, lower_right);
 
-            spawner.spawn(move || {
+            spawner.spawn(move |_| {
                 render(band, band_bounds, band_upper_left, band_lower_right);
             });
         }
     });
+
+    if let Err(_) = result {
+        panic!("error in crossbeam scope");
+    }
 
     write_image("mandelbrot-multi.png", &pixels, bounds).expect("error writing PNG file");
 }
